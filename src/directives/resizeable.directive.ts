@@ -1,9 +1,9 @@
 import {
   Directive, ElementRef, HostListener, Input, Output, EventEmitter, OnDestroy, AfterViewInit, Renderer2
 } from '@angular/core';
-import { Observable, Subscription, fromEvent } from 'rxjs';
+import { Observable, Subscription, fromEvent, Subject } from 'rxjs';
 import { MouseEvent } from '../events';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, auditTime } from 'rxjs/operators';
 
 @Directive({
   selector: '[resizeable]',
@@ -18,6 +18,9 @@ export class ResizeableDirective implements OnDestroy, AfterViewInit {
   @Input() maxWidth: number;
 
   @Output() resize: EventEmitter<any> = new EventEmitter();
+  @Output() resizingMove: EventEmitter<any> = new EventEmitter();
+
+  _resizingRequest = new Subject<any>();
 
   element: HTMLElement;
   subscription: Subscription;
@@ -25,6 +28,10 @@ export class ResizeableDirective implements OnDestroy, AfterViewInit {
 
   constructor(element: ElementRef, private renderer: Renderer2) {
     this.element = element.nativeElement;
+
+    this._resizingRequest
+      .pipe(auditTime(0))
+      .subscribe(v => this.resizingMove.emit(v));
   }
 
   ngAfterViewInit(): void {
@@ -83,6 +90,9 @@ export class ResizeableDirective implements OnDestroy, AfterViewInit {
     if (overMinWidth && underMaxWidth) {
       this.element.style.width = `${newWidth}px`;
     }
+
+    // this.resizingMove.emit(newWidth);
+    this._resizingRequest.next(newWidth);
   }
 
   private _destroySubscription() {

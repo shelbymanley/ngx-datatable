@@ -24,6 +24,7 @@ import { MouseEvent } from '../../events';
           resizeable
           [resizeEnabled]="column.resizeable"
           (resize)="onColumnResized($event, column)"
+          (resizingMove)="onResizingMove($event, column)"
           long-press
           [pressModel]="column"
           [pressEnabled]="reorderable && column.draggable"
@@ -34,6 +35,7 @@ import { MouseEvent } from '../../events';
           [dragY]="false"
           [dragModel]="column"
           [dragEventTarget]="dragEventTarget"
+          (dragging)="onDragging()"
           [headerHeight]="headerHeight"
           [isTarget]="column.isTarget"
           [targetMarkerTemplate]="targetMarkerTemplate"
@@ -180,6 +182,7 @@ export class DataTableHeaderComponent {
   }
 
   onColumnResized(width: number, column: DataTableColumnDirective): void {
+    // console.log('onColumnResized', width, column);
     if (width <= column.minWidth) {
       width = column.minWidth;
     } else if (width >= column.maxWidth) {
@@ -191,6 +194,11 @@ export class DataTableHeaderComponent {
       prevValue: column.width,
       newValue: width
     });
+  }
+
+  onResizingMove(width: number, column: DataTableColumnDirective) {
+    // console.log('onResizingMove', width, column);
+    this.onColumnResized(width, column);
   }
 
   onColumnReordered({ prevIndex, newIndex, model }: any): void {
@@ -284,6 +292,7 @@ export class DataTableHeaderComponent {
   }
 
   calcStylesByGroup(group: string): any {
+    // console.log('calcStylesByGroup', group, this._columnGroupWidths);
     const widths = this._columnGroupWidths;
     const offsetX = this.offsetX;
 
@@ -300,5 +309,9 @@ export class DataTableHeaderComponent {
     }
 
     return styles;
+  }
+
+  onDragging() {
+    // console.log('onDragging');
   }
 }

@@ -88,6 +88,7 @@ export class DraggableDirective implements OnDestroy, OnChanges {
   }
 
   move(event: MouseEvent, mouseDownPos: { x: number, y: number }): void {
+    console.log('move');
     if (!this.isDragging) return;
 
     const x = event.clientX - mouseDownPos.x;

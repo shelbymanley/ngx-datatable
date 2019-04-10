@@ -12,29 +12,33 @@ import { Component } from '@angular/core';
           </a>
         </small>
       </h3>
-      <ngx-datatable
-        class="material"
-        [rows]="rows"
-        [columnMode]="'standard'"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [rowHeight]="'auto'">
-        <ngx-datatable-column name="Name" [width]="300">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            {{value}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Gender" [width]="300">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{value}}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Age" [width]="300">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            {{value}}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+      <div style="position: relative; height: 500px; border: 1px solid black;">
+        <ngx-datatable
+          style="width: 100%; height: 100%;"
+          class="bootstrap"
+          [rows]="rows"
+          [columnMode]="'standard'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [scrollbarV]="true">
+          <ngx-datatable-column name="Name" [width]="300">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Gender" [width]="300">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Age" [width]="300">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
     </div>
   `
 })
@@ -44,7 +48,7 @@ export class ColumnStandardComponent {
 
   constructor() {
     this.fetch((data) => {
-      this.rows = data.splice(0, 5);
+      this.rows = data.splice(0, 35);
     });
   }
 
