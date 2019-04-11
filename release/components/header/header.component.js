@@ -127,6 +127,7 @@ var DataTableHeaderComponent = /** @class */ (function () {
         return column.$$id;
     };
     DataTableHeaderComponent.prototype.onColumnResized = function (width, column) {
+        // console.log('onColumnResized', width, column);
         if (width <= column.minWidth) {
             width = column.minWidth;
         }
@@ -138,6 +139,10 @@ var DataTableHeaderComponent = /** @class */ (function () {
             prevValue: column.width,
             newValue: width
         });
+    };
+    DataTableHeaderComponent.prototype.onResizingMove = function (width, column) {
+        // console.log('onResizingMove', width, column);
+        this.onColumnResized(width, column);
     };
     DataTableHeaderComponent.prototype.onColumnReordered = function (_a) {
         var prevIndex = _a.prevIndex, newIndex = _a.newIndex, model = _a.model;
@@ -215,12 +220,13 @@ var DataTableHeaderComponent = /** @class */ (function () {
         return sorts;
     };
     DataTableHeaderComponent.prototype.setStylesByGroup = function () {
-        this._styleByGroup['left'] = this.calcStylesByGroup('left');
-        this._styleByGroup['center'] = this.calcStylesByGroup('center');
-        this._styleByGroup['right'] = this.calcStylesByGroup('right');
+        this._styleByGroup.left = this.calcStylesByGroup('left');
+        this._styleByGroup.center = this.calcStylesByGroup('center');
+        this._styleByGroup.right = this.calcStylesByGroup('right');
         this.cd.detectChanges();
     };
     DataTableHeaderComponent.prototype.calcStylesByGroup = function (group) {
+        // console.log('calcStylesByGroup', group, this._columnGroupWidths);
         var widths = this._columnGroupWidths;
         var offsetX = this.offsetX;
         var styles = {
@@ -235,6 +241,9 @@ var DataTableHeaderComponent = /** @class */ (function () {
             utils_1.translateXY(styles, offset, 0);
         }
         return styles;
+    };
+    DataTableHeaderComponent.prototype.onDragging = function () {
+        // console.log('onDragging');
     };
     __decorate([
         core_1.Input(),
@@ -325,7 +334,7 @@ var DataTableHeaderComponent = /** @class */ (function () {
     DataTableHeaderComponent = __decorate([
         core_1.Component({
             selector: 'datatable-header',
-            template: "\n    <div\n      orderable\n      (reorder)=\"onColumnReordered($event)\"\n      (targetChanged)=\"onTargetChanged($event)\"\n      [style.width.px]=\"_columnGroupWidths.total\"\n      class=\"datatable-header-inner\">\n      <div\n        *ngFor=\"let colGroup of _columnsByPin; trackBy: trackByGroups\"\n        [class]=\"'datatable-row-' + colGroup.type\"\n        [ngStyle]=\"_styleByGroup[colGroup.type]\">\n        <datatable-header-cell\n          *ngFor=\"let column of colGroup.columns; trackBy: columnTrackingFn\"\n          resizeable\n          [resizeEnabled]=\"column.resizeable\"\n          (resize)=\"onColumnResized($event, column)\"\n          long-press\n          [pressModel]=\"column\"\n          [pressEnabled]=\"reorderable && column.draggable\"\n          (longPressStart)=\"onLongPressStart($event)\"\n          (longPressEnd)=\"onLongPressEnd($event)\"\n          draggable\n          [dragX]=\"reorderable && column.draggable && column.dragging\"\n          [dragY]=\"false\"\n          [dragModel]=\"column\"\n          [dragEventTarget]=\"dragEventTarget\"\n          [headerHeight]=\"headerHeight\"\n          [isTarget]=\"column.isTarget\"\n          [targetMarkerTemplate]=\"targetMarkerTemplate\"\n          [targetMarkerContext]=\"column.targetMarkerContext\"\n          [column]=\"column\"\n          [sortType]=\"sortType\"\n          [sorts]=\"sorts\"\n          [selectionType]=\"selectionType\"\n          [sortAscendingIcon]=\"sortAscendingIcon\"\n          [sortDescendingIcon]=\"sortDescendingIcon\"\n          [allRowsSelected]=\"allRowsSelected\"\n          (sort)=\"onSort($event)\"\n          (select)=\"select.emit($event)\"\n          (columnContextmenu)=\"columnContextmenu.emit($event)\">\n        </datatable-header-cell>\n      </div>\n    </div>\n  ",
+            template: "\n    <div\n      orderable\n      (reorder)=\"onColumnReordered($event)\"\n      (targetChanged)=\"onTargetChanged($event)\"\n      [style.width.px]=\"_columnGroupWidths.total\"\n      class=\"datatable-header-inner\">\n      <div\n        *ngFor=\"let colGroup of _columnsByPin; trackBy: trackByGroups\"\n        [class]=\"'datatable-row-' + colGroup.type\"\n        [ngStyle]=\"_styleByGroup[colGroup.type]\">\n        <datatable-header-cell\n          *ngFor=\"let column of colGroup.columns; trackBy: columnTrackingFn\"\n          resizeable\n          [resizeEnabled]=\"column.resizeable\"\n          (resize)=\"onColumnResized($event, column)\"\n          (resizingMove)=\"onResizingMove($event, column)\"\n          long-press\n          [pressModel]=\"column\"\n          [pressEnabled]=\"reorderable && column.draggable\"\n          (longPressStart)=\"onLongPressStart($event)\"\n          (longPressEnd)=\"onLongPressEnd($event)\"\n          draggable\n          [dragX]=\"reorderable && column.draggable && column.dragging\"\n          [dragY]=\"false\"\n          [dragModel]=\"column\"\n          [dragEventTarget]=\"dragEventTarget\"\n          (dragging)=\"onDragging()\"\n          [headerHeight]=\"headerHeight\"\n          [isTarget]=\"column.isTarget\"\n          [targetMarkerTemplate]=\"targetMarkerTemplate\"\n          [targetMarkerContext]=\"column.targetMarkerContext\"\n          [column]=\"column\"\n          [sortType]=\"sortType\"\n          [sorts]=\"sorts\"\n          [selectionType]=\"selectionType\"\n          [sortAscendingIcon]=\"sortAscendingIcon\"\n          [sortDescendingIcon]=\"sortDescendingIcon\"\n          [allRowsSelected]=\"allRowsSelected\"\n          (sort)=\"onSort($event)\"\n          (select)=\"select.emit($event)\"\n          (columnContextmenu)=\"columnContextmenu.emit($event)\">\n        </datatable-header-cell>\n      </div>\n    </div>\n  ",
             host: {
                 class: 'datatable-header'
             },

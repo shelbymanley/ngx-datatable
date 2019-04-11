@@ -116,9 +116,9 @@ var DataTableBodyRowComponent = /** @class */ (function () {
         return column.$$id;
     };
     DataTableBodyRowComponent.prototype.buildStylesByGroup = function () {
-        this._groupStyles['left'] = this.calcStylesByGroup('left');
-        this._groupStyles['center'] = this.calcStylesByGroup('center');
-        this._groupStyles['right'] = this.calcStylesByGroup('right');
+        this._groupStyles.left = this.calcStylesByGroup('left');
+        this._groupStyles.center = this.calcStylesByGroup('center');
+        this._groupStyles.right = this.calcStylesByGroup('right');
         this.cd.markForCheck();
     };
     DataTableBodyRowComponent.prototype.calcStylesByGroup = function (group) {
@@ -134,7 +134,8 @@ var DataTableBodyRowComponent = /** @class */ (function () {
             var bodyWidth = parseInt(this.innerWidth + '', 0);
             var totalDiff = widths.total - bodyWidth;
             var offsetDiff = totalDiff - offsetX;
-            var offset = (offsetDiff + this.scrollbarHelper.width) * -1;
+            // const offset = (offsetDiff + this.scrollbarHelper.width) * -1;
+            var offset = offsetDiff * -1;
             utils_1.translateXY(styles, offset, 0);
         }
         return styles;

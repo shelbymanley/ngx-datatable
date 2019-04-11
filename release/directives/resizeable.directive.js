@@ -15,11 +15,17 @@ var events_1 = require("../events");
 var operators_1 = require("rxjs/operators");
 var ResizeableDirective = /** @class */ (function () {
     function ResizeableDirective(element, renderer) {
+        var _this = this;
         this.renderer = renderer;
         this.resizeEnabled = true;
         this.resize = new core_1.EventEmitter();
+        this.resizingMove = new core_1.EventEmitter();
+        this._resizingRequest = new rxjs_1.Subject();
         this.resizing = false;
         this.element = element.nativeElement;
+        this._resizingRequest
+            .pipe(operators_1.auditTime(0))
+            .subscribe(function (v) { return _this.resizingMove.emit(v); });
     }
     ResizeableDirective.prototype.ngAfterViewInit = function () {
         var renderer2 = this.renderer;
@@ -67,6 +73,8 @@ var ResizeableDirective = /** @class */ (function () {
         if (overMinWidth && underMaxWidth) {
             this.element.style.width = newWidth + "px";
         }
+        // this.resizingMove.emit(newWidth);
+        this._resizingRequest.next(newWidth);
     };
     ResizeableDirective.prototype._destroySubscription = function () {
         if (this.subscription) {
@@ -90,6 +98,10 @@ var ResizeableDirective = /** @class */ (function () {
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)
     ], ResizeableDirective.prototype, "resize", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
+    ], ResizeableDirective.prototype, "resizingMove", void 0);
     __decorate([
         core_1.HostListener('mousedown', ['$event']),
         __metadata("design:type", Function),

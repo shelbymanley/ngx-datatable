@@ -75,6 +75,7 @@ var DraggableDirective = /** @class */ (function () {
         }
     };
     DraggableDirective.prototype.move = function (event, mouseDownPos) {
+        console.log('move');
         if (!this.isDragging)
             return;
         var x = event.clientX - mouseDownPos.x;

@@ -1,11 +1,13 @@
 import { ElementRef, EventEmitter, OnDestroy, AfterViewInit, Renderer2 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 export declare class ResizeableDirective implements OnDestroy, AfterViewInit {
     private renderer;
     resizeEnabled: boolean;
     minWidth: number;
     maxWidth: number;
     resize: EventEmitter<any>;
+    resizingMove: EventEmitter<any>;
+    _resizingRequest: Subject<any>;
     element: HTMLElement;
     subscription: Subscription;
     resizing: boolean;
