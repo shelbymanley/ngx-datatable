@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 
 import { MouseEvent } from '../../events';
+import { ScrollbarHelper } from '../../services';
 
 @Component({
   selector: 'datatable-scroller',
@@ -36,8 +37,12 @@ export class ScrollerComponent implements OnInit, OnDestroy {
   parentElement: any;
   onScrollListener: any;
 
-  constructor(private ngZone: NgZone, element: ElementRef, private renderer: Renderer2) {
-
+  constructor(
+    private ngZone: NgZone, 
+    element: ElementRef, 
+    private renderer: Renderer2,
+    private scrollHelper: ScrollbarHelper
+  ) {
     this.element = element.nativeElement;
   }
 
@@ -46,19 +51,19 @@ export class ScrollerComponent implements OnInit, OnDestroy {
     if (this.scrollbarV || this.scrollbarH) {
       const renderer = this.renderer;
       this.parentElement = renderer.parentNode(renderer.parentNode(this.element));
-      this.parentElement.addEventListener('scroll', this.onScrolled.bind(this));
+      this.scrollHelper.onInitScroller(this);
     }
   }
 
   ngOnDestroy(): void {
     if (this.scrollbarV || this.scrollbarH) {
-      this.parentElement.removeEventListener('scroll', this.onScrolled.bind(this));
+      this.scrollHelper.onDestroyScroller(this);
     }
   }
 
   setOffset(offsetY: number): void {
     if (this.parentElement) {
-      this.parentElement.scrollTop = offsetY;
+      this.scrollHelper.setOffset(this, offsetY);
     }
   }
 

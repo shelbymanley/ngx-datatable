@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 
 /**
@@ -30,6 +30,18 @@ export class ScrollbarHelper {
     outer.parentNode.removeChild(outer);
 
     return widthNoScroll - widthWithScroll;
+  }
+
+  onInitScroller(scroller: any): void {
+    scroller.parentElement.addEventListener('scroll', scroller.onScrolled.bind(scroller));
+  }
+
+  onDestroyScroller(scroller: any): void {
+    scroller.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
+  }
+
+  setOffset(scroller: any, offsetY: number): void {
+    scroller.parentElement.scrollTop = offsetY;
   }
 
 }
