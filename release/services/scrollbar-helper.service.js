@@ -38,6 +38,15 @@ var ScrollbarHelper = /** @class */ (function () {
         outer.parentNode.removeChild(outer);
         return widthNoScroll - widthWithScroll;
     };
+    ScrollbarHelper.prototype.onInitScroller = function (scroller) {
+        scroller.parentElement.addEventListener('scroll', scroller.onScrolled.bind(scroller));
+    };
+    ScrollbarHelper.prototype.onDestroyScroller = function (scroller) {
+        scroller.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
+    };
+    ScrollbarHelper.prototype.setOffset = function (scroller, offsetY) {
+        scroller.parentElement.scrollTop = offsetY;
+    };
     ScrollbarHelper = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(platform_browser_1.DOCUMENT)),

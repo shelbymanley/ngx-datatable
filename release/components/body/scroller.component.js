@@ -10,10 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var services_1 = require("../../services");
 var ScrollerComponent = /** @class */ (function () {
-    function ScrollerComponent(ngZone, element, renderer) {
+    function ScrollerComponent(ngZone, element, renderer, scrollHelper) {
         this.ngZone = ngZone;
         this.renderer = renderer;
+        this.scrollHelper = scrollHelper;
         this.scrollbarV = false;
         this.scrollbarH = false;
         this.scroll = new core_1.EventEmitter();
@@ -28,17 +30,17 @@ var ScrollerComponent = /** @class */ (function () {
         if (this.scrollbarV || this.scrollbarH) {
             var renderer = this.renderer;
             this.parentElement = renderer.parentNode(renderer.parentNode(this.element));
-            this.parentElement.addEventListener('scroll', this.onScrolled.bind(this));
+            this.scrollHelper.onInitScroller(this);
         }
     };
     ScrollerComponent.prototype.ngOnDestroy = function () {
         if (this.scrollbarV || this.scrollbarH) {
-            this.parentElement.removeEventListener('scroll', this.onScrolled.bind(this));
+            this.scrollHelper.onDestroyScroller(this);
         }
     };
     ScrollerComponent.prototype.setOffset = function (offsetY) {
         if (this.parentElement) {
-            this.parentElement.scrollTop = offsetY;
+            this.scrollHelper.setOffset(this, offsetY);
         }
     };
     ScrollerComponent.prototype.onScrolled = function (event) {
@@ -97,7 +99,10 @@ var ScrollerComponent = /** @class */ (function () {
             },
             changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }),
-        __metadata("design:paramtypes", [core_1.NgZone, core_1.ElementRef, core_1.Renderer2])
+        __metadata("design:paramtypes", [core_1.NgZone,
+            core_1.ElementRef,
+            core_1.Renderer2,
+            services_1.ScrollbarHelper])
     ], ScrollerComponent);
     return ScrollerComponent;
 }());

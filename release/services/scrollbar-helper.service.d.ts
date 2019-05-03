@@ -7,4 +7,7 @@ export declare class ScrollbarHelper {
     width: number;
     constructor(document: any);
     getWidth(): number;
+    onInitScroller(scroller: any): void;
+    onDestroyScroller(scroller: any): void;
+    setOffset(scroller: any, offsetY: number): void;
 }
