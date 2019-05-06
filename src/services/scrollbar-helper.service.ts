@@ -37,7 +37,7 @@ export class ScrollbarHelper {
   }
 
   onDestroyScroller(scroller: any): void {
-    scroller.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
+    scroller.parentElement.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
   }
 
   setOffset(scroller: any, offsetY: number): void {
