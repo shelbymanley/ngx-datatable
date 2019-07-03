@@ -42,7 +42,7 @@ var ScrollbarHelper = /** @class */ (function () {
         scroller.parentElement.addEventListener('scroll', scroller.onScrolled.bind(scroller));
     };
     ScrollbarHelper.prototype.onDestroyScroller = function (scroller) {
-        scroller.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
+        scroller.parentElement.removeEventListener('scroll', scroller.onScrolled.bind(scroller));
     };
     ScrollbarHelper.prototype.setOffset = function (scroller, offsetY) {
         scroller.parentElement.scrollTop = offsetY;
