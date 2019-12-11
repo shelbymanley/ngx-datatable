@@ -37,7 +37,7 @@ import { translateXY } from '../../utils/translate';
         [scrollbarV]="scrollbarV"
         [scrollbarH]="scrollbarH"
         [scrollHeight]="scrollHeight"
-        [scrollWidth]="columnGroupWidths?.total"
+        [scrollWidth]="10"
         (scroll)="onBodyScroll($event)"
       >
         <datatable-summary-row
