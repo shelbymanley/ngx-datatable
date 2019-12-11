@@ -34,6 +34,7 @@ import { translateXY } from '../../utils/translate';
           resizeable
           [resizeEnabled]="column.resizeable"
           (resize)="onColumnResized($event, column)"
+          (resizingMove)="onResizingMove($event, column)"
           long-press
           [pressModel]="column"
           [pressEnabled]="reorderable && column.draggable"
@@ -215,6 +216,10 @@ export class DataTableHeaderComponent implements OnDestroy {
       prevValue: column.width,
       newValue: width
     });
+  }
+
+  onResizingMove(width: number, column: DataTableColumnDirective) {
+    this.onColumnResized(width, column);
   }
 
   onColumnReordered({ prevIndex, newIndex, model }: any): void {
