@@ -141,6 +141,55 @@
           }
         }
       }
+    },
+    "lib": {
+      "projectType": "library",
+      "root": "projects/swimlane/ngx-datatable",
+      "sourceRoot": "projects/swimlane/ngx-datatable/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@linnenschmidt/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/swimlane/ngx-datatable/tsconfig.lib.json",
+            "project": "projects/swimlane/ngx-datatable/ng-package.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "../../../src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/lib/themes",
+                "output": "themes"
+              },
+              {
+                "inputFile": "src/lib/components/datatable.component.scss",
+                "outputFile": "index.scss"
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/swimlane/ngx-datatable/src/test.ts",
+            "tsConfig": "projects/swimlane/ngx-datatable/tsconfig.spec.json",
+            "karmaConfig": "projects/swimlane/ngx-datatable/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/swimlane/ngx-datatable/tsconfig.lib.json",
+              "projects/swimlane/ngx-datatable/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-datatable"
