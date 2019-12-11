@@ -30,4 +30,20 @@ export class ScrollbarHelper {
 
     return widthNoScroll - widthWithScroll;
   }
+
+  onInitScroller(scroller: any): void {
+    scroller._scrollEventListener = scroller.onScrolled.bind(scroller);
+    scroller.parentElement.addEventListener('scroll', scroller._scrollEventListener);
+  }
+
+  onDestroyScroller(scroller: any): void {
+    if (scroller._scrollEventListener) {
+      scroller.parentElement.removeEventListener('scroll', scroller._scrollEventListener);
+      scroller._scrollEventListener = null
+    }
+  }
+
+  setOffset(scroller: any, offsetY: number): void {
+    scroller.parentElement.scrollTop = offsetY;
+  }
 }
