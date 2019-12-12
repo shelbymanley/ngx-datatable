@@ -40,7 +40,7 @@
     "@angular/cli": "~8.3.0",
     "@angular/compiler-cli": "~8.2.3",
     "@angular/language-service": "~8.2.3",
-    "@marklb/build-ng-packagr": "^8.0.0",
+    "@marklb/build-ng-packagr": "^9.0.0-next.0",
     "@swimlane/prettier-config-swimlane": "^2.0.0",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",

@@ -149,7 +149,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@linnenschmidt/build-ng-packagr:build",
+          "builder": "@marklb/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/swimlane/ngx-datatable/tsconfig.lib.json",
             "project": "projects/swimlane/ngx-datatable/ng-package.json",
