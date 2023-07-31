@@ -43,7 +43,7 @@ import { ScrollbarHelper } from '../services/scrollbar-helper.service';
 import { ColumnChangesService } from '../services/column-changes.service';
 import { DimensionsHelper } from '../services/dimensions-helper.service';
 import { throttleable } from '../utils/throttle';
-import { forceFillColumnWidths, adjustColumnWidths } from '../utils/math';
+import { forceFillColumnWidths, adjustColumnWidths, getContentWidth } from '../utils/math';
 import { sortRows } from '../utils/sort';
 
 @Component({
@@ -1006,10 +1006,27 @@ export class DatatableComponent implements OnInit, DoCheck, AfterViewInit {
     this.recalculateColumns(cols, idx);
     this._internalColumns = cols;
 
+    this.resetOffsetX();
+
     this.resize.emit({
       column,
       newValue
     });
+  }
+
+  resetOffsetX(columns: any = this._internalColumns) {
+    let windowWidth = this._innerWidth;
+    if (this.scrollbarV) {
+      windowWidth = windowWidth - this.scrollbarHelper.width;
+    }
+
+    let rowWidth = getContentWidth(columns);
+
+    const maxOffsetX = rowWidth - windowWidth;
+
+    if (this._offsetX.value > maxOffsetX) {
+      this._offsetX.next(maxOffsetX);
+    }
   }
 
   /**
