@@ -46,6 +46,7 @@ import { DimensionsHelper } from '../services/dimensions-helper.service';
 import { throttleable } from '../utils/throttle';
 import { forceFillColumnWidths, adjustColumnWidths, getContentWidth } from '../utils/math';
 import { sortRows } from '../utils/sort';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-datatable',
@@ -643,6 +644,7 @@ export class DatatableComponent implements OnInit, OnDestroy, DoCheck, AfterView
   rowDiffer: KeyValueDiffer<{}, {}>;
 
   _offsetX = new BehaviorSubject(0);
+  offsetX$ = this._offsetX.asObservable().pipe(map(offsetX => (offsetX < 0 ? 0 : offsetX)));
   _limit: number | undefined;
   _count: number = 0;
   _offset: number = 0;
