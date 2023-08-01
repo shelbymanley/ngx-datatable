@@ -857,6 +857,8 @@ export class DatatableComponent implements OnInit, OnDestroy, DoCheck, AfterView
       adjustColumnWidths(columns, width);
     }
 
+    this.resetOffsetX();
+
     return columns;
   }
 
@@ -1026,8 +1028,6 @@ export class DatatableComponent implements OnInit, OnDestroy, DoCheck, AfterView
     this.recalculateColumns(cols, idx);
     this._internalColumns = cols;
 
-    this.resetOffsetX();
-
     this.resize.emit({
       column,
       newValue,
@@ -1036,6 +1036,10 @@ export class DatatableComponent implements OnInit, OnDestroy, DoCheck, AfterView
   }
 
   resetOffsetX(columns: any = this._internalColumns) {
+    if (columns == null || columns === undefined) {
+      return;
+    }
+
     let windowWidth = this._innerWidth;
     if (this.scrollbarV) {
       windowWidth = windowWidth - this.scrollbarHelper.width;
